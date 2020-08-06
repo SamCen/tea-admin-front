@@ -11,7 +11,7 @@
                     </el-col>
                 </el-row>
                 <el-row :gutter="20">
-                    <el-col :span="10" :offset="6">
+                    <el-col :span="14" :offset="6">
                         <el-card class="box-card">
                             <el-table
                                     v-loading="indexLoading"

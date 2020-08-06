@@ -2,14 +2,18 @@
     <div>
         <el-card class="box-card">
             <div slot="header" class="clearfix">
-                <h3 class="page-title">产品列表</h3>
+                <h3 class="page-title">手机用户列表</h3>
             </div>
             <div>
                 <el-row :gutter="20" type="flex" justify="space-between">
                     <el-col>
                         <el-form :inline="true" :model="queryParams" class="demo-form-inline" label-width="100px">
-                            <el-form-item label="产品名称">
-                                <el-input v-model="queryParams.product_name" placeholder="" clearable></el-input>
+                            <el-form-item label="用户名">
+                                <el-input v-model="queryParams.username" placeholder="" clearable></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="手机">
+                                <el-input v-model="queryParams.phone" placeholder="" clearable></el-input>
                             </el-form-item>
                             <el-form-item label="">
                                 <el-button type="primary" @click="queryIndex">查询</el-button>
@@ -20,7 +24,7 @@
                 </el-row>
                 <el-row>
                     <el-table
-                            :data="productIndexData.list"
+                            :data="userIndexData.list"
                             stripe
                             style="width: 100%">
                         <el-table-column
@@ -29,20 +33,13 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="product_name"
-                                label="产品名称"
+                                prop="username"
+                                label="用户名"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="所属分类"
-                        >
-                            <template slot-scope="scope">
-                                {{scope.row.category.category_name}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="product_unit"
-                                label="产品单位"
+                                prop="phone"
+                                label="手机"
                         >
                         </el-table-column>
                         <el-table-column
@@ -60,7 +57,7 @@
                                 :page-sizes="[10, 20, 50, 100]"
                                 :page-size="this.queryParams.size"
                                 layout="total, sizes, prev, pager, next, jumper"
-                                :total="this.productIndexData.total">
+                                :total="this.userIndexData.total">
                         </el-pagination>
                     </div>
                 </el-row>
@@ -68,32 +65,25 @@
         </el-card>
         <!--详情对话框-->
         <el-dialog
-                title="产品详情"
+                title="手机用户详情"
                 :visible.sync="showDialogVisible"
                 width="30%"
                 :before-close="showHandleClose"
                 @closed="showHandleClosed">
             <el-form :model="showData" ref="showForm" label-width="100px">
-                <el-form-item label="名称：" prop="product_name">
-                    <el-input v-model="showData.product_name"></el-input>
+                <el-form-item label="用户名：" prop="username">
+                    <el-input v-model="showData.username"></el-input>
                 </el-form-item>
-                <el-form-item label="所属分类：" prop="account">
-                    <el-select v-model="showData.category_id" placeholder="请选择产品分类">
+                <el-form-item label="密码：" prop="password">
+                    <el-input v-model="showData.password"></el-input>
+                </el-form-item>
+                <el-form-item label="角色：" prop="role">
+                    <el-select v-model="showData.role" placeholder="请选择角色">
                         <el-option
-                                v-for="item in categoryList"
+                                v-for="item in roleList"
                                 :key="item.id"
-                                :label="item.category_name"
+                                :label="item.name"
                                 :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="单位：" prop="account">
-                    <el-select v-model="showData.product_unit" placeholder="请选择单位">
-                        <el-option
-                                v-for="item in unitList"
-                                :key="item"
-                                :label="item"
-                                :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -105,35 +95,32 @@
         </el-dialog>
 
         <el-dialog
-                title="添加产品"
+                title="添加手机用户"
                 :visible.sync="addDialogVisible"
                 width="30%"
                 :before-close="addHandleClose"
                 @closed="addHandleClosed">
             <el-form :model="addParams" :rules="addRules" ref="addForm" label-width="100px">
-                <el-form-item label="产品名称：" prop="name">
-                    <el-input v-model="addParams.product_name"></el-input>
+                <el-form-item label="用户名：" prop="username">
+                    <el-input v-model="addParams.username"></el-input>
                 </el-form-item>
-                <el-form-item label="所属分类：" prop="account">
-                    <el-select v-model="addParams.category_id" placeholder="请选择产品分类">
+                <el-form-item label="密码：" prop="password">
+                    <el-input v-model="addParams.password"></el-input>
+                </el-form-item>
+                <el-form-item label="手机：" prop="phone">
+                    <el-input v-model="addParams.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="角色：" prop="role">
+                    <el-select v-model="addParams.role" placeholder="请选择角色">
                         <el-option
-                                v-for="item in categoryList"
+                                v-for="item in roleList"
                                 :key="item.id"
-                                :label="item.category_name"
+                                :label="item.name"
                                 :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="单位：" prop="account">
-                    <el-select v-model="addParams.product_unit" placeholder="请选择单位">
-                        <el-option
-                                v-for="item in unitList"
-                                :key="item"
-                                :label="item"
-                                :value="item">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+
                 <el-form-item label="">
                     <el-button @click="addCancelDialog">取 消</el-button>
                     <el-button type="primary" @click="addProduct">提交</el-button>
@@ -152,53 +139,56 @@
             return {
                 //表格数据下表
                 showIndex: 0,
-                //详情选项卡默认值
-                activeName: 'info',
                 //列表加载
                 indexLoading: false,
                 //列表请求参数
                 queryParams: {
                     page: 1,
                     size: 10,
-                    product_name: '',
+                    username: '',
+                    phone:'',
                 },
                 //产品科目列表数据
-                productIndexData: {
+                userIndexData: {
                     list: [],
                     total: 0,
                 },
                 //详情数据
                 showData: {
-                    product_name: '',
-                    product_unit: '',
-                    category_id: '',
+                    username: '',
+                    password: '',
+                    role: '',
+                    phone:'',
                 },
-                //当前选中的角色
-                activeRoles: [],
                 //详情对话框隐藏状态
                 showDialogVisible: false,
-                //角色列表数据(不需要分页)
-                roleIndexData: {
-                    data: [],
-                },
+
                 //添加对话框隐藏状态
                 addDialogVisible: false,
                 //添加用户数据
                 addParams: {
-                    product_name: '',
-                    category_id: '',
-                    product_unit: '',
+                    username: '',
+                    password: '',
+                    role: '',
+                    phone:'',
                 },
                 //添加验证规则
                 addRules: {
-                    product_name: [
+                    username: [
                         {required: true, message: '请输入名称', trigger: 'blur'},
                     ],
+                    password: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                    ],
+                    phone: [
+                        {required: true, message: '请输入手机', trigger: 'blur'},
+                    ],
+                    role: [
+                        {required: true, message: '请码选择角色', trigger: 'blur'},
+                    ],
                 },
-                //分类列表
-                categoryList: [],
-                //产品单位列表
-                unitList: [],
+                //角色列表
+                roleList: [],
             };
         },
         methods: {
@@ -207,25 +197,17 @@
              */
             queryIndex() {
                 this.indexLoading = true;
-                api.product.index(this.queryParams).then(response => {
-                    this.productIndexData = response.data.data;
+                api.appUser.index(this.queryParams).then(response => {
+                    this.userIndexData = response.data.data;
                     this.indexLoading = false;
                 }).catch(error => {
                     this.$message.error('网络异常');
                     this.indexLoading = false;
                 })
             },
-            queryUnitList() {
-                api.product.unitList().then(response => {
-                    this.unitList = response.data.data;
-                }).catch(error => {
-                    this.$message.error('网络异常');
-                    this.indexLoading = false;
-                })
-            },
-            queryCategoryIndex() {
-                api.category.allList().then(response => {
-                    this.categoryList = response.data.data;
+            queryRoleList() {
+                api.appUser.roleList().then(response => {
+                    this.roleList = response.data.data;
                 }).catch(error => {
                     this.$message.error('网络异常');
                     this.indexLoading = false;
@@ -253,8 +235,8 @@
              */
             showAction(index) {
                 this.showIndex = index;
-                let id = this.productIndexData.list[index].id;
-                api.product.show(id).then(response => {
+                let id = this.userIndexData.list[index].id;
+                api.appUser.show(id).then(response => {
                     this.showData = response.data.data;
                     this.showDialogVisible = true;
                 });
@@ -277,7 +259,7 @@
              * 提交修改产品
              */
             editInfo() {
-                api.product.update(this.showData.id, this.showData).then(response => {
+                api.appUser.update(this.showData.id, this.showData).then(response => {
                     this.showDialogVisible = false;
                     this.queryIndex();
                     this.showHandleClosed();
@@ -303,7 +285,7 @@
              * 添加对话框关闭完成后
              */
             addHandleClosed() {
-                this.addUserRoles = [];
+
             },
             /**
              * 添加对话框取消按钮
@@ -317,12 +299,13 @@
             addProduct() {
                 this.$refs['addForm'].validate((valid) => {
                     if (valid) {
-                        api.product.create(this.addParams).then(response => {
+                        api.appUser.create(this.addParams).then(response => {
                             this.queryIndex();
                             this.addParams = {
-                                product_name: '',
-                                category_id: '',
-                                product_unit: '',
+                                username: '',
+                                password: '',
+                                role: '',
+                                phone:'',
                             };
                             this.addDialogVisible = false;
                             this.$message.success('添加成功');
@@ -343,8 +326,7 @@
         },
         mounted() {
             this.queryIndex();
-            this.queryCategoryIndex();
-            this.queryUnitList();
+            this.queryRoleList();
         }
     }
 </script>

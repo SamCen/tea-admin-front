@@ -1,8 +1,11 @@
 import axios from 'axios';
 import auth from '@/apis/modules/auth';
+import category from '@/apis/modules/category';
+import product from '@/apis/modules/product';
 import user from '@/apis/modules/user';
 import role from '@/apis/modules/role';
 import privilege from '@/apis/modules/privilege';
+import appUser from '@/apis/modules/appUser';
 import store from '@/store';
 import * as types from '../store/mutations-type';
 
@@ -51,4 +54,7 @@ export default {
     user,
     role,
     privilege,
+    product,
+    category,
+    appUser,
 }
