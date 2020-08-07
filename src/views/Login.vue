@@ -88,7 +88,7 @@
                 this.loading = false;
                 this.registerRouter();
                 this.$router.replace({
-                    path: '/home'
+                    path: router.options.routes[0].children[0].path
                 })
             },
 

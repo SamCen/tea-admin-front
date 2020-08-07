@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from './store'
-import RouterGenerator from '@/utils/generateRouter'
+import store from './store';
+import RouterGenerator from '@/utils/generateRouter';
 
 
 Vue.use(Router);
