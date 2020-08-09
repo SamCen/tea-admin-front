@@ -43,5 +43,15 @@ export default {
 
     unitList(){
         return axios.get('backend/product-unit')
-    }
+    },
+
+    productSelectList() {
+        return axios.get('app/productSelectList');
+    },
+
+    sumStatistics(params) {
+        return axios.get('common/sumStatistics',{
+            params:params,
+        });
+    },
 }

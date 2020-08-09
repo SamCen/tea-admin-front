@@ -134,7 +134,7 @@
     import api from '@/apis/index';
 
     export default {
-        name: "Product",
+        name: "User",
         data() {
             return {
                 //表格数据下表
@@ -170,7 +170,7 @@
                     username: '',
                     password: '',
                     role: '',
-                    phone:'',
+                    // phone:'',
                 },
                 //添加验证规则
                 addRules: {
