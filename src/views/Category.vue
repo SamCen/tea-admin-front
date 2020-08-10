@@ -249,7 +249,7 @@
                             this.addDialogVisible = false;
                             this.$message.success('添加成功');
                         }).catch(err => {
-                            this.$message.error('网络异常');
+                            this.$message.error(err.response.data.msg);
                         })
                     } else {
                         this.$message.warning('资料不完善');
