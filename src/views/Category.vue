@@ -56,7 +56,7 @@
         </el-card>
         <!--详情对话框-->
         <el-dialog
-                title="科目详情"
+                title="分类"
                 :visible.sync="showDialogVisible"
                 width="30%"
                 :before-close="showHandleClose"
@@ -225,7 +225,9 @@
              * 添加对话框关闭完成后
              */
             addHandleClosed() {
-
+                this.addParams = {
+                    category_name: '',
+                };
             },
             /**
              * 添加对话框取消按钮

@@ -194,6 +194,12 @@
                     product_name: [
                         {required: true, message: '请输入名称', trigger: 'blur'},
                     ],
+                    product_unit: [
+                        {required: true, message: '请选择单位', trigger: 'blur'},
+                    ],
+                    category_id: [
+                        {required: true, message: '请选择分类', trigger: 'blur'},
+                    ],
                 },
                 //分类列表
                 categoryList: [],
@@ -297,13 +303,18 @@
              * 关闭添加对话框
              */
             addHandleClose() {
+
                 this.addDialogVisible = false;
             },
             /**
              * 添加对话框关闭完成后
              */
             addHandleClosed() {
-                this.addUserRoles = [];
+                this.addParams = {
+                    product_name: '',
+                    category_id: '',
+                    product_unit: '',
+                };
             },
             /**
              * 添加对话框取消按钮
@@ -327,7 +338,7 @@
                             this.addDialogVisible = false;
                             this.$message.success('添加成功');
                         }).catch(err => {
-                            this.$message.error('网络异常');
+                            this.$message.error(err.response.data.msg);
                         })
                     } else {
                         this.$message.warning('资料不完善');
