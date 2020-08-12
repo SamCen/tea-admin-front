@@ -37,6 +37,7 @@
                 </el-row>
                 <el-row>
                     <el-table
+                            v-loading="indexLoading"
                             :data="sumStatisticsList"
                             stripe
                             style="width: 100%">

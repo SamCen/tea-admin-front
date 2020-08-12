@@ -24,6 +24,7 @@
                 </el-row>
                 <el-row>
                     <el-table
+                            v-loading="indexLoading"
                             :data="userIndexData.list"
                             stripe
                             style="width: 100%">
