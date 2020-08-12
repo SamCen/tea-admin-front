@@ -49,21 +49,21 @@
                                 label="入库"
                         >
                             <template slot-scope="scope">
-                                {{scope.row.input?scope.row.input:0}}{{scope.row.product_unit}}
+                                {{scope.row.input}}{{scope.row.product_unit}}
                             </template>
                         </el-table-column>
                         <el-table-column
                                 label="出库"
                         >
                             <template slot-scope="scope">
-                                {{scope.row.output?scope.row.output:0}}{{scope.row.product_unit}}
+                                {{scope.row.output}}{{scope.row.product_unit}}
                             </template>
                         </el-table-column>
                         <el-table-column
                                 label="库存"
                         >
                             <template slot-scope="scope">
-                                {{(scope.row.input?scope.row.input:0) - (scope.row.output?scope.row.output:0)}}{{scope.row.product_unit}}
+                                {{scope.row.storage}}{{scope.row.product_unit}}
                             </template>
                         </el-table-column>
                     </el-table>
